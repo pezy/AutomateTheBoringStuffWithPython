@@ -69,7 +69,7 @@ print('spam') #1
 
 > Q: 9. Write code that prints Hello if 1 is stored in `spam`, prints Howdy if 2 is stored in `spam`, and prints Greetings! if anything else is stored in `spam`.
 
-A: [](condition.py)
+A: [condition.py](condition.py)
 
 > Q: 10. What can you press if your program is stuck in an infinite loop?
 
@@ -85,7 +85,7 @@ A:  same.
 
 > Q: 13. Write a short program that prints the numbers 1 to 10 using a for loop. Then write an equivalent program that prints the numbers 1 to 10 using a while loop.
 
-A: [](loop.py)
+A: [loop.py](loop.py)
 
 > Q: 14. If you had a function named bacon() inside a module named `spam`, how would you call it after importing `spam`?
 
@@ -93,4 +93,4 @@ A: `spam.bacon()`
 
 > Extra credit: Look up the round() and abs() functions on the Internet, and find out what they do. Experiment with them in the interactive shell.
 
-A: [](extra.py)
+A: [extra.py](extra.py)
