@@ -57,9 +57,3 @@ A: use `try...except...`
 > Q: 14. What goes in the try clause? What goes in the except clause?
 
 A: potential error goes in the `try` clause, then if the error happens, goes in the `except` clause.
-
----
-
-## Practice Projects
-
-see [collatz.py](collatz.py)
