@@ -218,5 +218,181 @@ def compose1(f, g):
 
 上面各类高阶函数的特性都介绍了一遍. 接下来, 我们通过一个具体的例子, 来看看它的威力.
 
-[牛顿法](https://en.wikipedia.org/wiki/Newton%27s_method)是一种经典的迭代方法, 刚才求平方根的数学推导就用到了它.
+[牛顿法](https://en.wikipedia.org/wiki/Newton%27s_method)是一种利用逼近法求根的经典方法, 刚才求平方根的数学推导就用到了它. 
+$$
+x : f(x) = 0.
+$$
+求解的逼近过程可以用下面这个式子来表达:
+$$
+x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
+$$
+据此, 我们来提供 `newton_update`:
 
+```python
+def newton_update(f, df):
+    def update(x):
+        return x - f(x)/df(x)
+    return update
+```
+
+以及通用求根的方法:
+
+```python
+def find_zero(f, df):
+    def near_zero(x):
+        return approx_eq(f(x), 0)
+    return improve(newton_update(f, df), near_zero)
+```
+
+这样, 我们重构一下用牛顿法求平方根的写法:
+
+```python
+def square_root_newton(a):
+    def f(x):
+        return x * x - a
+    def df(x):
+        return 2 * x
+    return find_zero(f, df)
+```
+
+并且可以推广到 n 方根:
+
+```python
+def power(x, n):
+    '''Return x * x * x * ... * x for x repeated n times.'''
+    product, k = 1, 0
+    while k < n:
+        product, k = product * x, k + 1
+    return product
+
+def nth_root_of_a(n, a):
+    def f(x):
+        return power(x, n) - a
+    def df(x):
+        return n * power(x, n-1)
+    return find_zero(f, df)
+```
+
+## 柯里化(Currying)
+
+利用高阶函数, 我们可以将多参数的函数转换为单参数形式, 例如, 给定 `f(x, y)`, 我们可以定义 `g(x)(y)` 等价于 `f(x, y)`. 这里的 `g` 就是一个高阶函数. 这种转换, 被称为柯里化(Currying).
+
+下面是柯里化版本的 `pow` 函数:
+
+```python
+def curried_pow(x):
+    def h(y):
+        return pow(x, y)
+    return h
+
+>>> curried_pow(2)(3)
+8
+```
+
+函数式编程中(尤其是 Haskell), 会规定函数只允许有一个参数. 所以这就要求程序员对多参数的情况进行柯里化. 譬如我们可以写这样一个函数来映射处理一系列值:
+
+```python
+def map_to_range(start, end, f):
+    while start < end:
+        print(f(start))
+        start = start + 1
+        
+map_to_range(0, 10, curried_pow(2))
+1
+2
+4
+8
+16
+32
+64
+128
+256
+512
+```
+
+对于上述例子, 我们要计算的都是以 2 为底的 n 次方. 对于该问题, n 是唯一的变量. 柯里化的作用, 就是避免在解决这样类似问题时, 重复调用无关的数字(如 2).
+
+对于两个参数的情况, 我们可以写一个更通用的自动柯里化的函数, 以及对应的反柯里化函数:
+
+```python
+def curry2(f):
+    '''Return a curried version of the given two-argument functions.'''
+    def g(x):
+        def h(y):
+            return f(x, y)
+        return h
+    return g
+
+def uncurry2(g):
+    '''Return a two-argument version of the given curried function.'''
+    def f(x, y):
+        return g(x)(y)
+    return f
+```
+
+## Lambda 表达式
+
+截止到目前, 我们列举的函数, 都是有名字的. 但很多情况下, 我们并不需要对这个函数进行命名(有可能是一次性使用, 或者临时的闭包). 那么就需要祭出我们的另一神器: Lambda 表达式了.
+
+```python
+def compose1(f, g):
+    return lambda x: f(g(x))
+```
+
+我们可以用对应的英语语法来理解 lambda 的语法:
+
+| lambda           | x       | :           | f(g(x))  |
+| ---------------- | ------- | ----------- | -------- |
+| "A function that | takes x | and returns | f(g(x))" |
+
+lambda 表达式的结果就是 lambda 函数. 除了没有名字以外, 它和其他正常的函数没有什么区别.
+
+```python
+f = compose1(lambda x: x*x, lambda y: y+1)
+result = f(12) #169
+```
+
+虽然, 在 Python 里, lambda 表达式可以写的异常简洁, 如:
+
+```python
+compose1 = lambda f, g : lambda x : f(g(x))
+```
+
+但这样却某种程度上破坏了可读性, 让人乍一看, 比较糊涂.
+
+所以通常情况下,  Python 还是会显式地使用 `def` 来表达函数. 但 lambda 函数仍会在返回值, 或是参数中经常出现.
+
+## 抽象与一等公民
+
+有经验的程序员往往会依照实际任务情况, 来选择抽象的级别. 基于一定的抽象基础, 做起事来将会得心应手. 就像上述长篇累牍地介绍的高阶函数, 我们完全可以将其看作一般的计算元素来处理.
+
+通常, 在程序设计语言中, 对于可操控的计算元素, 都会加以限制. 这限制越少, 其地位则越高. 限制最少的计算元素, 我们成为语言的一等公民. 它的权利如下:
+
+1. 他们可被命名
+2. 他们可作为参数传递给函数
+3. 他们可作为函数的返回值
+4. 他们可被数据结构所包含
+
+Python 授予了函数第一公民的奖章, 以至于其抽象表现能力, 被极大程度的加强了.
+
+## 装饰模式
+
+Python 提供了一种特殊的语法, 以便让高阶函数作为 `def` 语句的一部分, 参与执行过程. 这个被称之为**装饰者**.
+
+```python
+def trace(fn):
+    def wrapped(x):
+        print('-> ', fn, '(', x, ')')
+        return fn(x)
+    return wrapped
+
+@trace
+def triple(x):
+    return 3 * x
+```
+
+这其实相当于:
+
+```python
+triple = trace(triple)
+```
