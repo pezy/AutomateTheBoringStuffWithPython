@@ -1,7 +1,5 @@
 # CHAPTER 4 - LISTS
 
-
-
 > Q: 1. What is []?
 
 A: empty list.
@@ -71,4 +69,3 @@ A: references.
 > Q: 17. What is the difference between `copy.copy()` and `copy.deepcopy()`?
 
 A: The `copy.copy()` will do a shadow copy of list, while the `copy.deepcopy()` will do a deep copy of a list. Thus, `copy.deepcopy()` will duplicate any lists inside the list.
-
