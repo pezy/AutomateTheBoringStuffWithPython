@@ -1,14 +1,18 @@
-spam = ['apple', 'bananas', 'tofu', 'cats']
+#! python3
+'''test for list_to_str'''
 
-def list2Str(l):
-    if not l:
+SPAM = ['apple', 'bananas', 'tofu', 'cats']
+
+def list_to_str(lst):
+    '''show list in string format'''
+    if not lst:
         return ''
-    if len(l) == 1:
-        return l[0]
-    s = ''
-    for i in range(len(l) - 1):
-        s += l[i] + ', '
-    s += 'and ' + l[-1]
-    return s
+    if len(lst) == 1:
+        return lst[0]
+    ret = ''
+    for i in range(len(lst) - 1):
+        ret += lst[i] + ', '
+    ret += 'and ' + lst[-1]
+    return ret
 
-print(list2Str(spam))
+print(list_to_str(SPAM))

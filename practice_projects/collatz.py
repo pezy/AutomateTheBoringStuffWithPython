@@ -1,22 +1,28 @@
-def collatz(x):
-    if x % 2 == 0:
-        x = x // 2
-    else:
-        x = 3 * x + 1
-    print(x)
-    return x
+#! python3
+"""Calculate collatz function"""
 
-def getInput():
+def collatz(x_value):
+    '''collatz calculation'''
+    if x_value % 2 == 0:
+        x_value = x_value // 2
+    else:
+        x_value = 3 * x_value + 1
+    print(x_value)
+    return x_value
+
+def get_input():
+    '''get custom input'''
     try:
         return int(input())
     except (ValueError, NameError):
         print('Your should input an integer.')
-        return getInput()
+        return get_input()
 
-n = getInput()
-if n == 0:
+N = get_input()
+
+if N == 0:
     print('It would enter an infinite loop.')
 else:
-    while n != 1:
-        n = collatz(n)
-    
+    while N != 1:
+        N = collatz(N)
+print(N)
