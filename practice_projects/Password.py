@@ -12,7 +12,7 @@ if len(sys.argv) < 2:
     print('Usage: python Password.py [account] - copy account password')
     sys.exit()
 
-ACCOUNT = sys.argv[1] # first command line arg is the account name
+ACCOUNT = sys.argv[1]  # first command line arg is the account name
 
 if ACCOUNT in PASSWORDS:
     pyperclip.copy(PASSWORDS[ACCOUNT])

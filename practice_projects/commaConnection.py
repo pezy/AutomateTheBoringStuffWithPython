@@ -3,6 +3,7 @@
 
 SPAM = ['apple', 'bananas', 'tofu', 'cats']
 
+
 def list_to_str(lst):
     '''show list in string format'''
     if not lst:

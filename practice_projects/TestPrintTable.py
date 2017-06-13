@@ -5,6 +5,7 @@ TABLE_DATA = [['apples', 'oranges', 'cherries', 'banana'],
               ['Alice', 'Bob', 'Carol', 'David'],
               ['dogs', 'cats', 'moose', 'goose']]
 
+
 def print_table(str_list):
     '''print the table'''
     col_widths = [0] * len(str_list)
