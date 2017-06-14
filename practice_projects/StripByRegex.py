@@ -10,5 +10,14 @@ the function will be removed from the string.
 
 '''
 
+from re import compile
 
-def stripInRegexWay()
+
+def stripInRegexWay(string, bad=" "):
+    strip_regex = compile(r'(^[{0}]*)(.*?)([{1}]*$)'.format(bad, bad))
+    return strip_regex.search(string).group(2)
+
+assert stripInRegexWay('  dsadas  ') == 'dsadas'
+assert stripInRegexWay(' dasd dsd  ') == 'dasd dsd'
+assert stripInRegexWay('addsada', 'ad') == 's'
+assert stripInRegexWay('adsradsnads', 'ads') == 'radsn'
