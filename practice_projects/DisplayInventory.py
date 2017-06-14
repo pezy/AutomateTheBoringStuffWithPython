@@ -6,6 +6,7 @@ import os
 STUFF = {'rope': 1, 'torch': 6, 'gold coin': 42, 'dagger': 1, 'arrow': 12}
 DRAGON_LOOT = ['gold coin', 'dagger', 'gold coin', 'gold coin', 'ruby']
 
+
 def display_inventory(inventory):
     '''display'''
     print("Inventory:")
@@ -14,6 +15,7 @@ def display_inventory(inventory):
         print(str(value) + " " + k)
         total_num += value
     print("Total number of items: " + str(total_num))
+
 
 def add_to_inventory(inventory, added_items):
     '''add item to inventory'''
