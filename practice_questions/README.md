@@ -6,3 +6,4 @@
 - [Chapter 4 - Lists](ch04/README.md)
 - [Chapter 5 – Dictionaries and Structuring Data](ch05/README.md)
 - [Chapter 6 – Manipulating Strings](ch06/README.md)
+- [Chapter 7 – Pattern Matching with Regular Expressions](ch07/README.md)
