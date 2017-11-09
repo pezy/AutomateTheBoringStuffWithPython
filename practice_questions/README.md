@@ -9,3 +9,4 @@
 - [Chapter 7 – Pattern Matching with Regular Expressions](ch07/README.md)
 - [Chapter 8 – Reading and Writing Files](ch08/README.md)
 - [Chapter 9 – Organizing Files](ch09/README.md)
+- [Chapter 10 – Debugging](ch10/README.md)
